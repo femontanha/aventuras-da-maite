@@ -1,0 +1,9 @@
+{
+  "name": "As Aventuras da Maitê",
+  "short_name": "Maitê",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#14111d",
+  "theme_color": "#14111d",
+  "icons": [{ "src": "icon.svg", "sizes": "any", "type": "image/svg+xml" }]
+}

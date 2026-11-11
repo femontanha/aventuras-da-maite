@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="pt-BR" data-theme="noite">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>As Aventuras da Maitê</title>
+<meta name="description" content="40 histórias para sonhar">
+<meta name="theme-color" content="#14111d">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📚</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&display=swap" rel="stylesheet">
+<style>
+  /* ---------- temas (todos pensados para pouca luz, exceto "dia") ---------- */
+  :root, [data-theme="noite"] {
+    --bg: #14111d; --bg2: #1c1828; --card: #211c2f; --line: #2e2840;
+    --text: #e6dccb; --muted: #9a90a8; --dim: #6c6380;
+    --shadow: 0 6px 24px rgba(0,0,0,.35);
+  }
+  [data-theme="ambar"] { /* quase sem luz azul, para ler no escuro */
+    --bg: #000; --bg2: #0a0704; --card: #110c07; --line: #221810;
+    --text: #c9a26b; --muted: #8a6d48; --dim: #5e4a32;
+    --shadow: none;
+  }
+  [data-theme="dia"] {
+    --bg: #f5eedf; --bg2: #efe6d3; --card: #fbf6ec; --line: #e2d6bf;
+    --text: #3b3027; --muted: #7d6e5d; --dim: #a8987f;
+    --shadow: 0 4px 16px rgba(80,60,30,.10);
+  }
+  /* cor de cada mundo */
+  [data-cat="doces"] { --accent: #ff8fb8; }
+  [data-cat="cores"] { --accent: #ffc44d; }
+  [data-cat="fadas"] { --accent: #b9a0ff; }
+  [data-cat="mar"]   { --accent: #5fd3e3; }
+  [data-theme="ambar"] [data-cat], [data-theme="ambar"][data-cat] { --accent: #d08a3c; }
+  [data-theme="dia"] [data-cat="doces"] { --accent: #d6457a; }
+  [data-theme="dia"] [data-cat="cores"] { --accent: #c98400; }
+  [data-theme="dia"] [data-cat="fadas"] { --accent: #7a55e0; }
+  [data-theme="dia"] [data-cat="mar"]   { --accent: #128ea0; }
+
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html { --fs: 20px; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font-family: "Literata", Georgia, serif;
+    -webkit-font-smoothing: antialiased;
+    transition: background .3s, color .3s;
+    min-height: 100dvh;
+  }
+  button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+  .wrap { max-width: 680px; margin: 0 auto; padding: 0 16px calc(32px + env(safe-area-inset-bottom)); }
+  .kicker { font-family: "Fredoka", sans-serif; font-weight: 600; font-size: 12px; letter-spacing: .14em;
+            text-transform: uppercase; color: var(--muted); }
+  .round { font-family: "Fredoka", sans-serif; }
+
+  /* ---------- barra do topo ---------- */
+  .top { position: sticky; top: 0; z-index: 10; background: color-mix(in srgb, var(--bg) 88%, transparent);
+         backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+         padding-top: env(safe-area-inset-top); }
+  .top-in { max-width: 680px; margin: 0 auto; padding: 8px 10px; display: flex; align-items: center; gap: 4px; }
+  .top-title { flex: 1; min-width: 0; font-family: "Fredoka"; font-weight: 600; font-size: 15px; color: var(--muted);
+               white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding: 0 6px; }
+  .icon-btn { width: 44px; height: 44px; border-radius: 14px; display: grid; place-items: center; font-size: 18px;
+              color: var(--muted); }
+  .icon-btn:active { background: var(--card); }
+  .icon-btn svg { width: 22px; height: 22px; }
+  .progress { height: 3px; background: transparent; }
+  .progress > i { display: block; height: 100%; width: 0; background: var(--accent, var(--muted));
+                  box-shadow: 0 0 10px var(--accent); transition: width .1s linear; }
+
+  /* painel de leitura (tema + tamanho) */
+  .panel { position: fixed; inset: auto 0 0 0; z-index: 30; background: var(--bg2); border-top: 1px solid var(--line);
+           border-radius: 24px 24px 0 0; padding: 18px 18px calc(22px + env(safe-area-inset-bottom));
+           transform: translateY(105%); transition: transform .25s ease; }
+  .panel.open { transform: none; }
+  .scrim { position: fixed; inset: 0; z-index: 25; background: rgba(0,0,0,.5); opacity: 0; pointer-events: none; transition: opacity .25s; }
+  .scrim.open { opacity: 1; pointer-events: auto; }
+  .panel-in { max-width: 520px; margin: 0 auto; display: grid; gap: 18px; }
+  .seg { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 8px; }
+  .seg button { height: 56px; border-radius: 16px; border: 2px solid var(--line); font-family: "Fredoka"; font-weight: 600; font-size: 15px; }
+  .seg button.on { border-color: var(--text); }
+  .sw-noite { background: #14111d; color: #e6dccb; }
+  .sw-ambar { background: #000; color: #c9a26b; }
+  .sw-dia   { background: #f5eedf; color: #3b3027; }
+  .sizes { display: flex; align-items: center; gap: 10px; margin-top: 8px; }
+  .sizes button { width: 56px; height: 56px; border-radius: 16px; background: var(--card); font-family: "Fredoka"; font-weight: 700; }
+  .sizes .val { flex: 1; text-align: center; font-family: "Fredoka"; font-weight: 600; color: var(--muted); }
+
+  /* ---------- início ---------- */
+  .hero { position: relative; padding: 26px 4px 18px; overflow: hidden; }
+  .hero::before { content: ""; position: absolute; right: -80px; top: -60px; width: 260px; height: 260px; border-radius: 50%;
+                  background: radial-gradient(circle, color-mix(in srgb, #b9a0ff 28%, transparent), transparent 70%); pointer-events: none; }
+  [data-theme="ambar"] .hero::before { background: radial-gradient(circle, rgba(208,138,60,.18), transparent 70%); }
+  .hero h1 { font-family: "Fredoka"; font-weight: 700; font-size: clamp(34px, 9vw, 46px); line-height: 1.05; margin: 8px 0 10px; }
+  .hero p { margin: 0; color: var(--muted); font-size: 16px; line-height: 1.5; }
+  .catbar { display: flex; height: 6px; border-radius: 6px; overflow: hidden; gap: 3px; margin-top: 18px; }
+  .catbar i { flex: var(--n); background: var(--accent); opacity: .9; }
+  .catbar i.empty { opacity: .2; }
+  .hero-stats { display: flex; gap: 14px; margin-top: 10px; flex-wrap: wrap; }
+  .hero-stats span { font-family: "Fredoka"; font-size: 13px; color: var(--muted); display: inline-flex; align-items: center; gap: 6px; }
+  .hero-stats b { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
+
+  .continue { display: flex; align-items: center; gap: 14px; width: 100%; text-align: left; margin: 8px 0 18px;
+              padding: 16px; border-radius: 22px; background: var(--card); border: 1px solid var(--line); box-shadow: var(--shadow);
+              position: relative; overflow: hidden; }
+  .continue::after { content: ""; position: absolute; inset: 0 0 0 auto; width: 120px;
+                     background: radial-gradient(circle at 100% 50%, color-mix(in srgb, var(--accent) 22%, transparent), transparent 70%); }
+  .continue .em { font-size: 34px; }
+  .continue .t { font-family: "Fredoka"; font-weight: 600; font-size: 18px; line-height: 1.2; margin-top: 3px; }
+  .continue .kicker { color: var(--accent); }
+
+  .chips { position: sticky; top: calc(63px + env(safe-area-inset-top)); z-index: 5; display: flex; gap: 8px; overflow-x: auto;
+           padding: 10px 0; margin: 0 -16px; padding-inline: 16px; background: var(--bg); scrollbar-width: none; }
+  .chips::-webkit-scrollbar { display: none; }
+  .chip { flex: none; height: 42px; padding: 0 16px; border-radius: 999px; border: 1.5px solid var(--line);
+          font-family: "Fredoka"; font-weight: 600; font-size: 15px; color: var(--muted); display: inline-flex; align-items: center; gap: 7px; }
+  .chip.on { color: var(--bg); background: var(--accent, var(--text)); border-color: transparent;
+             box-shadow: 0 0 18px color-mix(in srgb, var(--accent, var(--text)) 35%, transparent); }
+  .chip:not([data-cat]).on { --accent: var(--text); }
+
+  .sec { margin-top: 22px; }
+  .sec-h { display: flex; align-items: baseline; gap: 10px; margin: 0 4px 12px; }
+  .sec-h h2 { font-family: "Fredoka"; font-weight: 700; font-size: 22px; margin: 0; }
+  .sec-h .kicker { margin-left: auto; color: var(--accent); }
+  .list { display: grid; gap: 10px; }
+  .story { display: flex; align-items: center; gap: 14px; width: 100%; text-align: left; padding: 14px 14px 14px 12px;
+           border-radius: 18px; background: var(--card); border: 1px solid var(--line); }
+  .story:active { transform: scale(.99); }
+  .num { flex: none; width: 46px; height: 46px; border-radius: 14px; display: grid; place-items: center;
+         font-family: "Fredoka"; font-weight: 700; font-size: 20px; color: var(--accent);
+         background: color-mix(in srgb, var(--accent) 14%, transparent); }
+  .story .t { font-family: "Fredoka"; font-weight: 600; font-size: 17px; line-height: 1.25; }
+  .story .m { font-family: "Fredoka"; font-size: 13px; color: var(--dim); margin-top: 3px; }
+  .story .body { flex: 1; min-width: 0; }
+  .story.read .num { background: var(--accent); color: var(--bg); }
+  .check { flex: none; color: var(--accent); font-size: 16px; opacity: 0; }
+  .story.read .check { opacity: 1; }
+
+  .epi { text-align: center; color: var(--muted); margin: 40px 10px 10px; font-style: italic; line-height: 1.6; }
+
+  /* ---------- leitura ---------- */
+  .reader { padding-top: 22px; }
+  .reader header { position: relative; padding: 10px 4px 26px; margin-bottom: 8px; border-bottom: 1px solid var(--line); }
+  .reader header::before { content: ""; position: absolute; left: -60px; top: -60px; width: 240px; height: 240px; border-radius: 50%;
+                           background: radial-gradient(circle, color-mix(in srgb, var(--accent) 20%, transparent), transparent 70%); pointer-events: none; }
+  .reader .kicker { color: var(--accent); position: relative; }
+  .reader h1 { position: relative; font-family: "Fredoka"; font-weight: 700; font-size: clamp(30px, 8vw, 40px); line-height: 1.12; margin: 10px 0 12px; }
+  .reader .meta { position: relative; font-family: "Fredoka"; font-size: 14px; color: var(--muted); }
+  .text { font-size: var(--fs); line-height: 1.72; padding: 0 4px; hyphens: auto; -webkit-hyphens: auto; }
+  .text p { margin: 0 0 1.05em; }
+  .text p.fala { padding-left: .9em; text-indent: -.9em; }
+  .text em { color: color-mix(in srgb, var(--accent) 55%, var(--text)); }
+  .text strong { font-weight: 600; }
+  .fim { text-align: center; margin: 40px 0 10px; }
+  .fim .e { font-size: 56px; display: inline-block; filter: drop-shadow(0 0 18px color-mix(in srgb, var(--accent) 60%, transparent)); }
+  [data-theme="ambar"] .fim .e { filter: sepia(1) brightness(.6); }
+  .fim .w { font-family: "Fredoka"; font-weight: 700; font-size: 28px; color: var(--accent); margin-top: 6px; letter-spacing: .04em; }
+  .nav { display: grid; gap: 10px; margin-top: 34px; }
+  .next { display: flex; align-items: center; gap: 14px; text-align: left; padding: 18px; border-radius: 22px;
+          background: var(--card); border: 1px solid var(--line); box-shadow: var(--shadow); }
+  .next .kicker { color: var(--accent); }
+  .next .t { font-family: "Fredoka"; font-weight: 600; font-size: 18px; margin-top: 3px; }
+  .next .arrow { margin-left: auto; font-size: 22px; color: var(--accent); }
+  .back { height: 56px; border-radius: 18px; border: 1.5px solid var(--line); font-family: "Fredoka"; font-weight: 600; color: var(--muted); }
+
+  [data-theme="ambar"] .reader h1, [data-theme="ambar"] .hero h1 { color: #d9ae72; }
+  [data-theme="ambar"] .em, [data-theme="ambar"] .chip .e { filter: sepia(1) brightness(.6); }
+  .loading { padding: 80px 0; text-align: center; color: var(--muted); font-family: "Fredoka"; }
+</style>
+</head>
+<body>
+<div class="top" id="top">
+  <div class="top-in">
+    <button class="icon-btn" id="homeBtn" aria-label="Início">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/></svg>
+    </button>
+    <div class="top-title" id="topTitle"></div>
+    <button class="icon-btn" id="settingsBtn" aria-label="Aparência">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4M6 20L11 6h2l5 14M8.5 14h7"/><path d="M18 4v4M16 6h4"/></svg>
+    </button>
+  </div>
+  <div class="progress"><i id="prog"></i></div>
+</div>
+
+<main class="wrap" id="app"><div class="loading">Abrindo o livro…</div></main>
+
+<div class="scrim" id="scrim"></div>
+<div class="panel" id="panel" role="dialog" aria-label="Aparência">
+  <div class="panel-in">
+    <div>
+      <div class="kicker">Luz</div>
+      <div class="seg" id="themes">
+        <button class="sw-noite" data-t="noite">🌙 Noite</button>
+        <button class="sw-ambar" data-t="ambar">🕯️ Vela</button>
+        <button class="sw-dia" data-t="dia">☀️ Dia</button>
+      </div>
+    </div>
+    <div>
+      <div class="kicker">Tamanho da letra</div>
+      <div class="sizes">
+        <button id="fsDown" style="font-size:16px">A−</button>
+        <div class="val" id="fsVal"></div>
+        <button id="fsUp" style="font-size:22px">A+</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(() => {
+  // ---------- preferências (salvas só neste aparelho) ----------
+  const store = {
+    get(k, d) { try { const v = localStorage.getItem("maite:" + k); return v == null ? d : JSON.parse(v); } catch { return d; } },
+    set(k, v) { try { localStorage.setItem("maite:" + k, JSON.stringify(v)); } catch {} },
+  };
+  const SIZES = [16, 18, 20, 22, 25, 28, 32];
+  let theme = store.get("theme", "noite");
+  let fsIdx = store.get("fs", 2);
+  let read = new Set(store.get("read", []));
+  const metaColor = { noite: "#14111d", ambar: "#000000", dia: "#f5eedf" };
+
+  function applyPrefs() {
+    document.documentElement.dataset.theme = theme;
+    document.documentElement.style.setProperty("--fs", SIZES[fsIdx] + "px");
+    document.querySelector('meta[name="theme-color"]').content = metaColor[theme];
+    document.querySelectorAll("#themes button").forEach(b => b.classList.toggle("on", b.dataset.t === theme));
+    document.getElementById("fsVal").textContent = SIZES[fsIdx] + " px";
+  }
+  applyPrefs();
+
+  // ---------- leitura do livro (historias.md) ----------
+  const SLUGS = [["doces", /doce/i], ["cores", /cor/i], ["fadas", /fada|magia/i], ["mar", /mar|oceano/i]];
+  const esc = s => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  const inline = s => esc(s).replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>").replace(/\*(.+?)\*/g, "<em>$1</em>");
+
+  function parse(md) {
+    const book = { title: "", subtitle: "", cats: [], epilogue: [] };
+    let cat = null, story = null, mode = null, para = [];
+    const flush = () => {
+      if (!para.length) return;
+      const txt = para.join(" ").trim(); para = [];
+      if (mode === "epi") return book.epilogue.push(txt);
+      if (!story) { if (!book.subtitle && mode === "intro") book.subtitle = txt.replace(/^\*(.*)\*$/, "$1"); return; }
+      const fim = txt.match(/^\*\*Fim\*\*\s*(.*)$/);
+      if (fim) story.endEmoji = fim[1] || "✨"; else story.paras.push(txt);
+    };
+    for (const raw of md.split(/\r?\n/)) {
+      const line = raw.trim();
+      let m;
+      if ((m = line.match(/^#\s+(.*)/))) { flush(); book.title = m[1].replace(/^\p{Extended_Pictographic}\s*/u, ""); mode = "intro"; continue; }
+      if ((m = line.match(/^##\s+(.*)/))) {
+        flush(); story = null;
+        const pm = m[1].match(/^(\S+)\s+Parte\s+\d+\s+[—-]\s+(.*)$/);
+        if (pm) {
+          const slug = (SLUGS.find(([, re]) => re.test(pm[2])) || ["c" + (book.cats.length + 1)])[0];
+          cat = { slug, emoji: pm[1], name: pm[2], stories: [] }; book.cats.push(cat); mode = "cat";
+        } else { cat = null; mode = /fim/i.test(m[1]) ? "epi" : "skip"; }
+        continue;
+      }
+      if ((m = line.match(/^###\s+(\d+)\.\s+(.*)/)) && cat) {
+        flush();
+        story = { n: +m[1], title: m[2], paras: [], endEmoji: "✨", cat, id: cat.slug + "-" + m[1] };
+        cat.stories.push(story); continue;
+      }
+      if (mode === "skip") continue;
+      if (line === "" || line === "---") { flush(); continue; }
+      para.push(line);
+    }
+    flush();
+    book.all = book.cats.flatMap(c => c.stories);
+    book.all.forEach((s, i) => { s.idx = i; s.min = Math.max(1, Math.round(s.paras.join(" ").split(/\s+/).length / 150)); });
+    return book;
+  }
+
+  // ---------- telas ----------
+  const app = document.getElementById("app");
+  const topTitle = document.getElementById("topTitle");
+  const prog = document.getElementById("prog");
+  let book;
+
+  function home(filter) {
+    document.body.removeAttribute("data-cat");
+    document.getElementById("top").removeAttribute("data-cat");
+    topTitle.textContent = "";
+    const last = book.all.find(s => s.id === store.get("last", null));
+    const cats = filter ? book.cats.filter(c => c.slug === filter) : book.cats;
+    app.innerHTML = `
+      <section class="hero">
+        <div class="kicker">${book.all.length} histórias para sonhar</div>
+        <h1>${esc(book.title)}</h1>
+        <div class="catbar">${book.cats.map(c => `<i data-cat="${c.slug}" style="--n:${c.stories.length}"></i>`).join("")}</div>
+        <div class="hero-stats">
+          <span><b style="background:var(--text)"></b>${read.size} de ${book.all.length} lidas</span>
+        </div>
+      </section>
+      ${last ? `
+      <button class="continue" data-cat="${last.cat.slug}" data-go="${last.id}">
+        <span class="em">${last.cat.emoji}</span>
+        <span><div class="kicker">Continuar · ${esc(last.cat.name)}</div><div class="t">${esc(last.title)}</div></span>
+      </button>` : ""}
+      <nav class="chips">
+        <button class="chip ${!filter ? "on" : ""}" data-filter="">Todas</button>
+        ${book.cats.map(c => `<button class="chip ${filter === c.slug ? "on" : ""}" data-cat="${c.slug}" data-filter="${c.slug}"><span class="e">${c.emoji}</span>${esc(c.name.replace(/^(Mundo d[oa]s?|Fundo do)\s+/i, ""))}</button>`).join("")}
+      </nav>
+      ${cats.map(c => `
+        <section class="sec" data-cat="${c.slug}">
+          <div class="sec-h"><h2><span class="em">${c.emoji}</span> ${esc(c.name)}</h2>
+            <span class="kicker">${c.stories.filter(s => read.has(s.id)).length}/${c.stories.length}</span></div>
+          <div class="list">
+            ${c.stories.map(s => `
+              <button class="story ${read.has(s.id) ? "read" : ""}" data-go="${s.id}">
+                <span class="num">${s.n}</span>
+                <span class="body"><div class="t">${esc(s.title)}</div><div class="m">${s.min} min de leitura</div></span>
+                <span class="check">✓</span>
+              </button>`).join("")}
+          </div>
+        </section>`).join("")}
+      ${!filter && book.epilogue.length ? `<div class="epi">${book.epilogue.map(inline).join("<br>")}</div>` : ""}`;
+  }
+
+  function reader(s) {
+    const slug = s.cat.slug;
+    document.body.dataset.cat = slug;
+    document.getElementById("top").dataset.cat = slug;
+    topTitle.textContent = s.cat.emoji + " " + s.title;
+    store.set("last", s.id);
+    const next = book.all[s.idx + 1];
+    app.innerHTML = `
+      <article class="reader">
+        <header>
+          <div class="kicker">${esc(s.cat.name)} · História ${s.n}</div>
+          <h1>${esc(s.title)}</h1>
+          <div class="meta">${s.min} min de leitura</div>
+        </header>
+        <div class="text">
+          ${s.paras.map(p => `<p${/^[—–-]\s/.test(p) ? ' class="fala"' : ""}>${inline(p)}</p>`).join("")}
+        </div>
+        <div class="fim"><div class="e">${s.endEmoji}</div><div class="w">Fim</div></div>
+        <div class="nav">
+          ${next ? `
+          <button class="next" data-cat="${next.cat.slug}" data-go="${next.id}">
+            <span><div class="kicker">Próxima · ${esc(next.cat.name)}</div><div class="t">${esc(next.title)}</div></span>
+            <span class="arrow">→</span>
+          </button>` : ""}
+          <button class="back" data-filter="${slug}">Ver todas de ${esc(s.cat.name)}</button>
+        </div>
+      </article>`;
+  }
+
+  function route() {
+    const h = decodeURIComponent(location.hash.slice(1));
+    const [kind, id] = h.split("/").filter(Boolean);
+    const s = kind === "h" && book.all.find(x => x.id === id);
+    if (s) reader(s);
+    else home(kind === "c" && book.cats.some(c => c.slug === id) ? id : "");
+    window.scrollTo(0, kind === "c" ? 0 : 0);
+    onScroll();
+  }
+
+  // marca como lida quando chega perto do "Fim"
+  function onScroll() {
+    const max = document.documentElement.scrollHeight - innerHeight;
+    const reading = location.hash.startsWith("#/h/");
+    const p = reading && max > 0 ? Math.min(1, scrollY / max) : 0;
+    prog.style.width = (p * 100) + "%";
+    if (reading && (p > 0.92 || max <= 0)) {
+      const id = location.hash.split("/")[2];
+      if (id && !read.has(id)) { read.add(id); store.set("read", [...read]); }
+    }
+  }
+  addEventListener("scroll", onScroll, { passive: true });
+
+  document.addEventListener("click", e => {
+    const go = e.target.closest("[data-go]");
+    if (go) { location.hash = "#/h/" + go.dataset.go; return; }
+    const f = e.target.closest("[data-filter]");
+    if (f) { location.hash = f.dataset.filter ? "#/c/" + f.dataset.filter : "#/"; return; }
+  });
+  document.getElementById("homeBtn").onclick = () => { location.hash = "#/"; };
+
+  // painel de aparência
+  const panel = document.getElementById("panel"), scrim = document.getElementById("scrim");
+  const toggle = open => { panel.classList.toggle("open", open); scrim.classList.toggle("open", open); };
+  document.getElementById("settingsBtn").onclick = () => toggle(!panel.classList.contains("open"));
+  scrim.onclick = () => toggle(false);
+  document.getElementById("themes").onclick = e => {
+    const b = e.target.closest("[data-t]"); if (!b) return;
+    theme = b.dataset.t; store.set("theme", theme); applyPrefs();
+  };
+  document.getElementById("fsDown").onclick = () => { fsIdx = Math.max(0, fsIdx - 1); store.set("fs", fsIdx); applyPrefs(); };
+  document.getElementById("fsUp").onclick = () => { fsIdx = Math.min(SIZES.length - 1, fsIdx + 1); store.set("fs", fsIdx); applyPrefs(); };
+
+  fetch("historias.md", { cache: "no-cache" })
+    .then(r => { if (!r.ok) throw new Error(r.status); return r.text(); })
+    .then(md => { book = parse(md); addEventListener("hashchange", route); route(); })
+    .catch(() => { app.innerHTML = `<div class="loading">Não consegui abrir o livro 😢<br><small>(abra pelo endereço do site, não pelo arquivo)</small></div>`; });
+})();
+</script>
+</body>
+</html>
