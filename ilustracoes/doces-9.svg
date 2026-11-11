@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 120">
+<defs><linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a2340"/><stop offset="1" stop-color="#6b3a5c"/></linearGradient></defs>
+<rect width="240" height="120" fill="url(#bg)"/>
+<path transform="translate(40 24) scale(0.4)" d="M0 -10 L2.9 -3.1 10 -3.1 4.3 1.6 6.2 9 0 4.6 -6.2 9 -4.3 1.6 -10 -3.1 -2.9 -3.1Z" fill="#ffe8a3" opacity="1"/><path transform="translate(196 18) scale(0.5)" d="M0 -10 L2.9 -3.1 10 -3.1 4.3 1.6 6.2 9 0 4.6 -6.2 9 -4.3 1.6 -10 -3.1 -2.9 -3.1Z" fill="#ffe8a3" opacity="1"/><path transform="translate(170 42) scale(0.3)" d="M0 -10 L2.9 -3.1 10 -3.1 4.3 1.6 6.2 9 0 4.6 -6.2 9 -4.3 1.6 -10 -3.1 -2.9 -3.1Z" fill="#ffe8a3" opacity="0.7"/><path transform="translate(70 14) scale(0.3)" d="M0 -10 L2.9 -3.1 10 -3.1 4.3 1.6 6.2 9 0 4.6 -6.2 9 -4.3 1.6 -10 -3.1 -2.9 -3.1Z" fill="#ffe8a3" opacity="0.6"/><path transform="translate(220 50) scale(0.25)" d="M0 -10 L2.9 -3.1 10 -3.1 4.3 1.6 6.2 9 0 4.6 -6.2 9 -4.3 1.6 -10 -3.1 -2.9 -3.1Z" fill="#ffe8a3" opacity="0.5"/>
+<path d="M0 78 Q50 60 100 74 T200 68 T260 72 V120 H0Z" fill="#f6d7e6" opacity=".9"/>
+<path d="M0 94 Q60 82 120 96 T240 88 V120 H0Z" fill="#ffb3cf"/>
+<g transform="translate(120 66) rotate(-8)"><path transform="translate(0 0) scale(3)" d="M0 -10 L2.9 -3.1 10 -3.1 4.3 1.6 6.2 9 0 4.6 -6.2 9 -4.3 1.6 -10 -3.1 -2.9 -3.1Z" fill="#e0a25c" opacity="1"/><path transform="translate(0 0) scale(2.5)" d="M0 -10 L2.9 -3.1 10 -3.1 4.3 1.6 6.2 9 0 4.6 -6.2 9 -4.3 1.6 -10 -3.1 -2.9 -3.1Z" fill="#eab673" opacity="1"/>
+<circle cx="-8" cy="8" r="1.8" fill="#b97a3a"/><circle cx="10" cy="10" r="1.8" fill="#b97a3a"/><circle cx="0" cy="16" r="1.8" fill="#b97a3a"/>
+<circle cx="-5" cy="-4" r="2.4" fill="#4a2a18"/><circle cx="5" cy="-4" r="2.4" fill="#4a2a18"/><circle cx="-4.2" cy="-5" r=".8" fill="#fff"/><circle cx="5.8" cy="-5" r=".8" fill="#fff"/>
+<path d="M-3 3 q3 3 6 0" stroke="#4a2a18" stroke-width="2" fill="none" stroke-linecap="round"/></g>
+<path d="M140 38 q14 -14 24 -14" stroke="#ffe8a3" stroke-width="1.5" stroke-dasharray="3 4" fill="none" opacity=".7"/>
+</svg>

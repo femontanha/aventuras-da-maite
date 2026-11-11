@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 120">
+<defs><linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#26243a"/><stop offset="1" stop-color="#3a3754"/></linearGradient></defs>
+<rect width="240" height="120" fill="url(#bg)"/>
+<path d="M0 96 Q60 88 120 96 T240 92 V120 H0Z" fill="#4a4766"/>
+<path d="M120 50 C100 18 52 16 58 46 C62 64 96 62 120 56Z" fill="#ff5f6d"/>
+<path d="M120 50 C140 18 188 16 182 46 C178 64 144 62 120 56Z" fill="#4fa3ff"/>
+<path d="M120 58 C102 62 72 74 82 90 C92 102 112 82 120 64Z" fill="#ffd36e"/>
+<path d="M120 58 C138 62 168 74 158 90 C148 102 128 82 120 64Z" fill="#7bd88f"/>
+<path d="M120 50 C108 34 84 32 82 44" stroke="#ff9f43" stroke-width="6" fill="none" stroke-linecap="round"/>
+<path d="M120 50 C132 34 156 32 158 44" stroke="#b98cff" stroke-width="6" fill="none" stroke-linecap="round"/>
+<circle cx="76" cy="42" r="5" fill="#fff" opacity=".5"/><circle cx="164" cy="42" r="5" fill="#fff" opacity=".5"/>
+<rect x="116" y="42" width="8" height="40" rx="4" fill="#2a2638"/>
+<path d="M118 42 q-6 -12 -12 -14 M122 42 q6 -12 12 -14" stroke="#2a2638" stroke-width="2" fill="none" stroke-linecap="round"/>
+<circle cx="30" cy="30" r="3" fill="#ff5f6d"/><circle cx="210" cy="24" r="3" fill="#ffd36e"/><circle cx="40" cy="80" r="2.5" fill="#4fa3ff"/><circle cx="204" cy="78" r="2.5" fill="#b98cff"/>
+</svg>

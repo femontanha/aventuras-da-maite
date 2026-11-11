@@ -129,13 +129,19 @@
   .story { display: flex; align-items: center; gap: 14px; width: 100%; text-align: left; padding: 14px 14px 14px 12px;
            border-radius: 18px; background: var(--card); border: 1px solid var(--line); }
   .story:active { transform: scale(.99); }
-  .num { flex: none; width: 46px; height: 46px; border-radius: 14px; display: grid; place-items: center;
-         font-family: "Fredoka"; font-weight: 700; font-size: 20px; color: var(--accent);
+  /* miniatura: recorte quadrado do centro da ilustração (o número fica por baixo, caso falte a imagem) */
+  .num { flex: none; position: relative; width: 60px; height: 60px; border-radius: 14px; display: grid; place-items: center;
+         font-family: "Fredoka"; font-weight: 700; font-size: 20px; color: var(--accent); overflow: hidden;
          background: color-mix(in srgb, var(--accent) 14%, transparent); }
+  .num img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .story.read .num img { opacity: .55; }
+  .art { display: block; width: 100%; aspect-ratio: 2 / 1; border-radius: 20px; margin: 4px 0 16px; position: relative;
+         box-shadow: 0 0 0 1px var(--line), 0 10px 40px color-mix(in srgb, var(--accent) 18%, transparent); }
+  [data-theme="ambar"] .art, [data-theme="ambar"] .num img { filter: sepia(1) saturate(1.3) brightness(.55); }
+  [data-theme="noite"] .art { filter: brightness(.92); }
   .story .t { font-family: "Fredoka"; font-weight: 600; font-size: 17px; line-height: 1.25; }
   .story .m { font-family: "Fredoka"; font-size: 13px; color: var(--dim); margin-top: 3px; }
   .story .body { flex: 1; min-width: 0; }
-  .story.read .num { background: var(--accent); color: var(--bg); }
   .check { flex: none; color: var(--accent); font-size: 16px; opacity: 0; }
   .story.read .check { opacity: 1; }
 
@@ -312,8 +318,8 @@
           <div class="list">
             ${c.stories.map(s => `
               <button class="story ${read.has(s.id) ? "read" : ""}" data-go="${s.id}">
-                <span class="num">${s.n}</span>
-                <span class="body"><div class="t">${esc(s.title)}</div><div class="m">${s.min} min de leitura</div></span>
+                <span class="num">${s.n}<img src="ilustracoes/${s.id}.svg" alt="" loading="lazy" onerror="this.remove()"></span>
+                <span class="body"><div class="t">${esc(s.title)}</div><div class="m">História ${s.n} · ${s.min} min</div></span>
                 <span class="check">✓</span>
               </button>`).join("")}
           </div>
@@ -333,6 +339,7 @@
         <header>
           <div class="kicker">${esc(s.cat.name)} · História ${s.n}</div>
           <h1>${esc(s.title)}</h1>
+          <img class="art" src="ilustracoes/${s.id}.svg" alt="" onerror="this.remove()">
           <div class="meta">${s.min} min de leitura</div>
         </header>
         <div class="text">

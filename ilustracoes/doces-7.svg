@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 120">
+<defs><linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a2340"/><stop offset="1" stop-color="#6b3a5c"/></linearGradient></defs>
+<rect width="240" height="120" fill="url(#bg)"/>
+<path d="M0 78 Q50 60 100 74 T200 68 T260 72 V120 H0Z" fill="#f6d7e6" opacity=".9"/>
+<path d="M0 94 Q60 82 120 96 T240 88 V120 H0Z" fill="#ffb3cf"/>
+<circle cx="30" cy="104" r="2.5" fill="#c9774f"/><circle cx="48" cy="100" r="2.5" fill="#c9774f"/><circle cx="66" cy="104" r="2.5" fill="#c9774f"/><circle cx="84" cy="99" r="2.5" fill="#c9774f"/><circle cx="100" cy="103" r="2.5" fill="#c9774f"/><circle cx="180" cy="100" r="2.5" fill="#c9774f"/><circle cx="200" cy="104" r="2.5" fill="#c9774f"/>
+<circle cx="132" cy="58" r="26" fill="#fff" opacity=".12"/>
+<circle cx="132" cy="58" r="26" fill="none" stroke="#ffd36e" stroke-width="7"/>
+<rect x="150" y="76" width="10" height="34" rx="5" fill="#a85e3d" transform="rotate(-40 155 80)"/>
+<circle cx="126" cy="54" r="5" fill="#c9774f"/><circle cx="138" cy="62" r="3.5" fill="#c9774f"/><circle cx="130" cy="68" r="2.5" fill="#c9774f"/>
+<text x="196" y="44" font-family="sans-serif" font-weight="700" font-size="26" fill="#ffd36e" opacity=".85">?</text>
+<text x="44" y="50" font-family="sans-serif" font-weight="700" font-size="18" fill="#ff8fb8" opacity=".7">?</text>
+</svg>

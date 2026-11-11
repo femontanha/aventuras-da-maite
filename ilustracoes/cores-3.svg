@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 120">
+<defs><linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#26243a"/><stop offset="1" stop-color="#3a3754"/></linearGradient></defs>
+<rect width="240" height="120" fill="url(#bg)"/>
+<path d="M0 96 Q60 88 120 96 T240 92 V120 H0Z" fill="#4a4766"/>
+<g fill="#e8e4f0" opacity=".9"><circle cx="40" cy="92" r="12"/><circle cx="54" cy="88" r="14"/><circle cx="68" cy="94" r="10"/><circle cx="186" cy="92" r="12"/><circle cx="200" cy="86" r="14"/><circle cx="214" cy="93" r="10"/></g>
+<path d="M42 90 A78 78 0 0 1 91.73609515081947 17.300951294556356" stroke="#ff5f6d" stroke-width="6" fill="none"/>
+<path d="M133.2574371462188 19.134921060900112 A78 78 0 0 1 198 96" stroke="#ff5f6d" stroke-width="6" fill="none" transform="rotate(8 198 96)"/><path d="M48 90 A72 72 0 0 1 93.9102416776795 22.89318581035971" stroke="#ff9f43" stroke-width="6" fill="none"/>
+<path d="M132.23763428881736 25.04761944083087 A72 72 0 0 1 192 96" stroke="#ff9f43" stroke-width="6" fill="none" transform="rotate(8 192 96)"/><path d="M54 90 A66 66 0 0 1 96.08438820453954 28.485420326163066" stroke="#ffd36e" stroke-width="6" fill="none"/>
+<path d="M131.2178314314159 30.96031782076163 A66 66 0 0 1 186 96" stroke="#ffd36e" stroke-width="6" fill="none" transform="rotate(8 186 96)"/><path d="M60 90 A60 60 0 0 1 98.25853473139958 34.07765484196642" stroke="#7bd88f" stroke-width="6" fill="none"/>
+<path d="M130.19802857401447 36.87301620069239 A60 60 0 0 1 180 96" stroke="#7bd88f" stroke-width="6" fill="none" transform="rotate(8 180 96)"/><path d="M66 90 A54 54 0 0 1 100.43268125825962 39.66988935776978" stroke="#4fa3ff" stroke-width="6" fill="none"/>
+<path d="M129.178225716613 42.78571458062315 A54 54 0 0 1 174 96" stroke="#4fa3ff" stroke-width="6" fill="none" transform="rotate(8 174 96)"/><path d="M72 90 A48 48 0 0 1 102.60682778511966 45.26212387357314" stroke="#b98cff" stroke-width="6" fill="none"/>
+<path d="M128.15842285921156 48.69841296055391 A48 48 0 0 1 168 96" stroke="#b98cff" stroke-width="6" fill="none" transform="rotate(8 168 96)"/>
+<path d="M116 22 l4 6 l-5 4 l6 6" stroke="#ffe8a3" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
